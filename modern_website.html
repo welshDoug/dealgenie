@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DealGenie - AI-Powered Sales Assistant Wearable</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: "🧞‍♂️";
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0, 150, 255, 0.1) 0%, transparent 50%);
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.4)); }
+            100% { filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.7)); }
+        }
+
+        .hero .tagline {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .hero .description {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Product Showcase */
+        .product-showcase {
+            padding: 5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .product-visual {
+            position: relative;
+            text-align: center;
+        }
+
+        .device-mockup {
+            width: 300px;
+            height: 100px;
+            background: linear-gradient(45deg, #333, #555);
+            border-radius: 50px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: deviceFloat 3s ease-in-out infinite;
+        }
+
+        .device-mockup::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 2px;
+        }
+
+        .device-mockup::after {
+            content: '🎧';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 1.5rem;
+        }
+
+        @keyframes deviceFloat {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-10px) rotateX(5deg); }
+        }
+
+        .product-info h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffd700, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-info p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .features-list li::before {
+            content: "✨";
+            color: #ffd700;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 5rem 0;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+
+        .testimonial-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .quote-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+
+        .testimonial-content p::before {
+            content: '"';
+            font-size: 3rem;
+            color: #ffd700;
+            position: absolute;
+            left: -20px;
+            top: -10px;
+            opacity: 0.3;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-info h4 {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .testimonial-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #ffd700;
+            transform: scale(1.05);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .pricing-card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-period {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(0, 150, 255, 0.1));
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ffd700, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #ffd700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+            
+            .hero .description {
+                font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .product-hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s ease;
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">DealGenie</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>DealGenie</h1>
+                <p class="tagline">Your AI Sales Assistant, Right in Your Face</p>
+                <p class="description">
+                    Revolutionary wearable with bone conductive headphones and AI-powered autocue technology. 
+                    Get real-time sales coaching, objection handling, and closing techniques whispered directly to you during every conversation.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#pricing" class="cta-button">Start Free Trial</a>
+                    <a href="#features" class="cta-button secondary">See How It Works</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="product-showcase">
+            <div class="container">
+                <div class="product-hero">
+                    <div class="product-visual slide-in-left">
+                        <div class="device-mockup">⌚</div>
+                        <p style="margin-top: 1rem; color: #ffd700;">Discreet • Powerful • Game-Changing</p>
+                    </div>
+                    <div class="product-info slide-in-right">
+                        <h2>Close More Deals</h2>
+                        <p>DealGenie combines cutting-edge wearable technology with advanced AI to give you the ultimate competitive advantage in sales.</p>
+                        <ul class="features-list">
+                            <li>Bone conductive audio - completely discreet</li>
+                            <li>Real-time AI coaching during conversations</li>
+                            <li>Objection handling suggestions</li>
+                            <li>Closing technique recommendations</li>
+                            <li>Post-call analysis and improvement tips</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="section-title fade-in">Revolutionary Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🎧</div>
+                        <h3>Bone Conductive Audio</h3>
+                        <p>Crystal clear audio transmitted through bone conduction technology. Completely invisible to your prospects while providing you with real-time coaching and suggestions.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI-Powered Autocue</h3>
+                        <p>Advanced LLM technology analyzes your conversation in real-time and provides intelligent suggestions for responses, objection handling, and closing techniques.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Smart Objection Handling</h3>
+                        <p>AI recognizes common objections and instantly provides proven responses and techniques to overcome them, helping you navigate difficult conversations with confidence.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">📊</div>
+                        <h3>Performance Analytics</h3>
+                        <p>Detailed post-call analysis tracks your progress, identifies improvement areas, and provides personalized coaching to enhance your sales performance.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Instant Responses</h3>
+                        <p>Lightning-fast AI processing ensures you receive suggestions within milliseconds, keeping your conversations flowing naturally without awkward pauses.</p>
+                    </div>
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure & Private</h3>
+                        <p>Enterprise-grade encryption protects all your conversations and data. Your competitive advantage stays confidential and secure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <h2 class="section-title fade-in">Choose Your Plan</h2>
+                <div class="pricing-grid">
+                    <div class="pricing-card fade-in">
+                        <h3>Starter</h3>
+                        <div class="price">$99</div>
+                        <div class="price-period">per month + device</div>
+                        <ul class="pricing-features">
+                            <li>DealGenie wearable device</li>
+                            <li>Basic AI coaching</li>
+                            <li>5 hours of AI assistance/day</li>
+                            <li>Email support</li>
+                            <li>Basic analytics</li>
+                        </ul>
+                        <a href="#contact" class="cta-button">Get Started</a>
+                    </div>
+                    <div class="pricing-card featured fade-in">
+                        <h3>Professional</h3>
+                        <div class="price">$199</div>
+                        <div class="price-period">per month + device</div>
+                        <ul class="pricing-features">
+                            <li>DealGenie wearable device</li>
+                            <li>Advanced AI coaching</li>
+                            <li>Unlimited AI assistance</li>
+                            <li>Priority support</li>
+                            <li>Advanced analytics & insights</li>
+                            <li>Industry-specific training</li>
+                            <li>Team management features</li>
+                        </ul>
+                        <a href="#contact" class="cta-button">Start Free Trial</a>
+                    </div>
+                    <div class="pricing-card fade-in">
+                        <h3>Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <div class="price-period">volume pricing</div>
+                        <ul class="pricing-features">
+                            <li>Multiple devices</li>
+                            <li>Custom AI training</li>
+                            <li>Dedicated support manager</li>
+                            <li>Advanced team analytics</li>
+                            <li>API integration</li>
+                            <li>Custom branding</li>
+                            <li>On-premise deployment</li>
+                        </ul>
+                        <a href="#contact" class="cta-button secondary">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <div class="container">
+                <h2 class="section-title fade-in">Success Stories</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">💬</div>
+                            <p>"DealGenie increased my close rate from 18% to 47% in just 3 months. The AI coaching during live calls is like having a sales mentor whispering in your ear. Game changer!"</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Sarah Chen</h4>
+                                <span>Senior Sales Rep, TechFlow Solutions</span>
+                                <div class="stats">+162% Revenue Increase</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">🚀</div>
+                            <p>"I was skeptical about wearable sales tech, but DealGenie's objection handling suggestions saved me deals I would have lost. Made $280K in additional revenue last quarter alone."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Marcus Rodriguez</h4>
+                                <span>Account Executive, CloudSync Inc</span>
+                                <div class="stats">$280K Additional Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card fade-in">
+                        <div class="testimonial-content">
+                            <div class="quote-icon">⭐</div>
+                            <p>"Our entire sales team uses DealGenie now. The bone conductive audio is completely invisible to clients, and the real-time coaching has transformed our performance. ROI was immediate."</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4>Jennifer Walsh</h4>
+                                <span>VP of Sales, Nexus Enterprise</span>
+                                <div class="stats">Team Close Rate: +89%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-stats fade-in">
+                    <div class="stat-item">
+                        <div class="stat-number">73%</div>
+                        <div class="stat-label">Average Close Rate Improvement</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">$1.2M</div>
+                        <div class="stat-label">Average Additional Revenue per User</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.8/5</div>
+                        <div class="stat-label">Customer Satisfaction Rating</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">14 Days</div>
+                        <div class="stat-label">Average Time to First Win</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="fade-in">Ready to 3x Your Sales?</h2>
+                <p class="fade-in">Join thousands of sales professionals who've transformed their results with DealGenie. Start your free trial today and experience the future of sales.</p>
+                <div class="cta-buttons fade-in">
+                    <a href="#contact" class="cta-button">Start Free Trial - 30 Days</a>
+                    <a href="#contact" class="cta-button secondary">Schedule Demo</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">Success Stories</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">Training Resources</a>
+                    <a href="#">API Documentation</a>
+                    <a href="#">Contact Support</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Sales</h4>
+                    <p>📧 sales@dealgenie.com</p>
+                    <p>📞 1-888-DEAL-NOW</p>
+                    <p>💬 Schedule a demo</p>
+                </div>
+            </div>
+            <p>&copy; 2025 DealGenie. Revolutionizing sales, one conversation at a time.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header background change on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(0, 0, 0, 0.4)';
+            } else {
+                header.style.background = 'rgba(0, 0, 0, 0.2)';
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Feature card interactions
+        document.querySelectorAll('.feature-card, .pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(0) scale(1)';
+                }
+            });
+        });
+
+        // CTA button click tracking (placeholder)
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // Add analytics tracking here
+                console.log('CTA clicked:', this.textContent);
+                
+                // For demo purposes, show alert for trial/demo buttons
+                if (this.textContent.includes('Trial') || this.textContent.includes('Demo')) {
+                    e.preventDefault();
+                    alert('Thank you for your interest! In a real implementation, this would redirect to our signup/demo booking page.');
+                }
+            });
+        });
+
+        // Device mockup interaction
+        const deviceMockup = document.querySelector('.device-mockup');
+        let isActive = false;
+
+        deviceMockup.addEventListener('click', function() {
+            if (!isActive) {
+                this.style.animation = 'none';
+                this.style.transform = 'scale(1.1) rotateY(15deg)';
+                this.style.boxShadow = '0 25px 50px rgba(255, 215, 0, 0.3)';
+                
+                // Add a "recording" indicator
+                const indicator = document.createElement('div');
+                indicator.style.cssText = `
+                    position: absolute;
+                    top: -10px;
+                    left: -10px;
+                    width: 20px;
+                    height: 20px;
+                    background: #ff4444;
+                    border-radius: 50%;
+                    animation: pulse 1s infinite;
+                `;
+                this.appendChild(indicator);
+                
+                isActive = true;
+                
+                setTimeout(() => {
+                    this.style.animation = 'deviceFloat 3s ease-in-out infinite';
+                    this.style.transform = '';
+                    this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+                    indicator.remove();
+                    isActive = false;
+                }, 3000);
+            }
+        });
+
+        // Add pulse animation for the recording indicator
+        const pulseStyle = document.createElement('style');
+        pulseStyle.textContent = `
+            @keyframes pulse {
+                0% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.7; transform: scale(1.2); }
+                100% { opacity: 1; transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(pulseStyle);
+    </script>
+</body>
+</html>
